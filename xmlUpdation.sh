@@ -32,7 +32,8 @@ do
 					echo -e "Deleted Files" > ./output.txt
 					echo -e "=============" >> ./output.txt
 				fi
-				echo -e "${fname}" >> ./output.txt
+				#echo -e "${fname}" >> ./output.txt
+        echo -e "${i}" >> ./output.txt
         grep -w $fnameExtenstion Mapping.csv
         if [ $? != 0 ]
         then
