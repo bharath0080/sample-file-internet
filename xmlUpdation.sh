@@ -8,7 +8,7 @@ git show --first-parent --name-status --pretty=""
 filesChanged=( $(git show --first-parent --name-status --pretty="") )
 for i in "${filesChanged[@]}"
 do
-  grep "meta.xml" $i
+  echo $i | grep "meta.xml" 
   if [ $? == 0 ]
   then
       continue
@@ -43,14 +43,15 @@ do
         mappingValue=`grep -w "$fnameExtenstion" Mapping.csv  | awk -F"," '{print $2}'`
         CONTENT="<types>\n<<members>$fname</members>\n<name>$mappingValue</name>\n</types>"
         C=$(echo $CONTENT | sed 's/\//\\\//g')
-        sed "/<\/Package>/ s/.*/${C}<\/Package>/" ./removecodepkg/destructiveChanges.xml > ./removecodepkg/destructiveChanges.xml_tmp
+        sed "/<\/Package>/ s/.*/${C}/" ./removecodepkg/destructiveChanges.xml > ./removecodepkg/destructiveChanges.xml_tmp
         mv ./removecodepkg/destructiveChanges.xml_tmp ./removecodepkg/destructiveChanges.xml
+        echo "</Package>" | tee -a ./removecodepkg/destructiveChanges.xml  >/dev/null 2>&1
       fi
     fi
   fi
 done
 
-git config --global user.name 'devops'
-git add removecodepkg/destructiveChanges.xml
-git commit -m "Updated destructiveChanges.xml file for deployment"
-git push
+#git config --global user.name 'devops'
+#git add removecodepkg/destructiveChanges.xml
+#git commit -m "Updated destructiveChanges.xml file for deployment"
+#git push
